@@ -20,5 +20,17 @@ router.get('/:id', function(req, res, next) {
     })
   });
 
+router.post('/', function(req, res, next) {
+  var name = req.body.food.name
+  var calories = req.body.food.calories
+  database.raw('INSERT INTO foods(name, calories) VALUES (?, ?) RETURNING *',
+   [name, calories])
+  .then(function(inserted) {
+    res.status(201).json(inserted.rows)
+  })
+});
+
+
+
 
 module.exports = router;

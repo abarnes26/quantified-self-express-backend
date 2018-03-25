@@ -20,5 +20,16 @@ router.get('/:id', function(req, res, next) {
     })
   });
 
+  router.post('/:mealid/foods/:foodid', function(req, res, next) {
+    var meal = req.params.mealid
+    var food = req.params.foodid
+    database.raw('INSERT INTO meal_foods(meal_id, food_id) VALUES (?, ?) RETURNING *',
+     [meal, food])
+    .then(function(inserted) {
+      res.status(201).json(inserted.rows)
+    })
+  });
+
+
 
 module.exports = router;
