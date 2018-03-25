@@ -20,6 +20,16 @@ router.get('/:id', function(req, res, next) {
     })
   });
 
+router.delete('/:id', function(req, res, next) {
+  var id = req.params.id
+  database.raw('DELETE FROM foods WHERE id = ?', id)
+  .then(function() {
+    res.status(201).send({
+      status: "Delete Successful!"
+    })
+  })
+});
+
 router.post('/', function(req, res, next) {
   var name = req.body.food.name
   var calories = req.body.food.calories

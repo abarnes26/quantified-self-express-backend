@@ -29,6 +29,18 @@ router.get('/:mealid/foods/', function(req, res, next) {
   })
 });
 
+router.delete('/:mealid/foods/:foodid', function(req, res, next) {
+  var meal = req.params.mealid
+  var food = req.params.foodid
+  database.raw('DELETE FROM meal_foods WHERE meal_id = ? AND food_id = ?',
+   [meal, food])
+   .then(function() {
+     res.status(201).send({
+       status: "Delete Successful!"
+     })
+   })
+});
+
 router.post('/:mealid/foods/:foodid', function(req, res, next) {
   var meal = req.params.mealid
   var food = req.params.foodid
