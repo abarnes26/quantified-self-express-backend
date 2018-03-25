@@ -30,6 +30,22 @@ router.delete('/:id', function(req, res, next) {
   })
 });
 
+router.patch('/:id', function(req, res, next) {
+  var id = req.params.id
+  var food = req.body.food
+  if (food['name']) {
+  database.raw('UPDATE foods SET name = ? WHERE id = ? RETURNING *', [food.name, id])
+  .then(function(foods) {
+    res.status(201).json(foods.rows)
+    })
+  } else if (food['calories']) {
+  database.raw('UPDATE foods SET calories = ? WHERE id = ? RETURNING *', [food.calories, id])
+  .then(function(foods) {
+    res.status(201).json(foods.rows)
+    })
+  }
+});
+
 router.post('/', function(req, res, next) {
   var name = req.body.food.name
   var calories = req.body.food.calories
