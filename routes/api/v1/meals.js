@@ -20,6 +20,8 @@ router.get('/:id', function(req, res, next) {
     })
   });
 
+  //lookup array agg
+
 router.get('/:mealid/foods/', function(req, res, next) {
   var meal = req.params.mealid
   database.raw('SELECT foods.* FROM foods INNER JOIN meal_foods ON meal_foods.food_id = foods.id WHERE meal_foods.meal_id = ?',
