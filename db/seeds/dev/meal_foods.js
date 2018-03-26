@@ -1,5 +1,7 @@
 pry = require('pryjs')
-
+const environment = process.env.NODE_ENV || 'development'
+const configuration = require('../../../knexfile')[environment]
+const database = require('knex')(configuration)
 const foodsData = require('../../../data/foods')
 const mealsData = require('../../../data/meals')
 
@@ -11,9 +13,9 @@ exports.seed = function(knex, Promise) {
     .then(() => {
       return knex('foods').del();
     })
-    // .then(() => {
-    //   knex.raw('SET FOREIGN_KEY_CHECKS = 0; TRUNCATE meal_foods; TRUNCATE meals; TRUNCATE foods; SET FOREIGN_KEY_CHECKS = 1;')
-    // })
+    .then(() => {
+      knex.raw('TRUNCATE TABLE foods CASCADE')
+    })
     .then(() => {
       return knex('foods').insert(foodsData)
     })
@@ -32,9 +34,6 @@ exports.seed = function(knex, Promise) {
     //   return Promise.all(mealFoodsData)
     // })
   }
-
-  // 'SELECT foods.id FROM foods ORDER BY random() LIMIT 1;')
-
 
 const createMealFood = (knex, meal, foodId) => {
   return knex('meals').where('name', meal.name).first()

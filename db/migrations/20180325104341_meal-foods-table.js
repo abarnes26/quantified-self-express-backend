@@ -20,9 +20,9 @@ exports.up = function(knex, Promise) {
 
 exports.down = function(knex, Promise) {
   return Promise.all([
+    knex.schema.dropTable('meal_foods'),
     knex.schema.dropTable('foods'),
-    knex.schema.dropTable('meals'),
-    knex.schema.dropTable('meal_foods')
+    knex.schema.dropTable('meals')
 
   ]);
 };
