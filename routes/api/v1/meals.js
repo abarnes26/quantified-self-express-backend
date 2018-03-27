@@ -17,7 +17,7 @@ router.get('/:id', function(req, res, next) {
   var id = req.params.id
   database.raw("SELECT meals.*, array_agg(json_build_object('id',foods.id,'name',foods.name, 'calories', foods.calories)) AS foods FROM meals INNER JOIN meal_foods ON meals.id = meal_foods.meal_id INNER JOIN foods ON meal_foods.food_id = foods.id WHERE meals.id = ? GROUP BY meals.id", id)
   .then(function(meals) {
-    res.json(meals.rows);
+    res.json(meals.rows[0]);
     })
   });
 
