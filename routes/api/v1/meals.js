@@ -49,7 +49,7 @@ router.post('/:mealId/foods/:foodId', function(req, res, next) {
   database.raw('INSERT INTO meal_foods(meal_id, food_id) VALUES (?, ?) RETURNING *',
    [meal, food])
   .then(function(inserted) {
-    res.status(201).json(inserted.rows)
+    res.status(201).json(inserted.rows[0])
   })
 });
 
