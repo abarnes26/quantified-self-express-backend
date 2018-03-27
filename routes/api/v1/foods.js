@@ -9,24 +9,18 @@ var foodsController = require('../../../controllers/foodsController')
 router.get('/', foodsController.index)
 
 router.get('/:id', foodsController.show)
-// 
+
+router.delete('/:id', foodsController.destroy)
+
 // function(req, res, next) {
 //   var id = req.params.id
-//   database.raw('Select * FROM foods WHERE id = ?', id)
-//   .then(function(food) {
-//     res.json(food.rows[0]);
+//   database.raw('DELETE FROM foods WHERE id = ?', id)
+//   .then(function() {
+//     res.status(201).send({
+//       status: "Delete Successful!"
 //     })
-//   });
-
-router.delete('/:id', function(req, res, next) {
-  var id = req.params.id
-  database.raw('DELETE FROM foods WHERE id = ?', id)
-  .then(function() {
-    res.status(201).send({
-      status: "Delete Successful!"
-    })
-  })
-});
+//   })
+// });
 
 router.patch('/:id', function(req, res, next) {
   var id = req.params.id

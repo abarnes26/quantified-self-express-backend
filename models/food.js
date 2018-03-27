@@ -15,6 +15,10 @@ const Food = {
     .then(function(food) {
       return food.rows[0]
       })
+  },
+
+  delete: function(id) {
+    return database.raw('DELETE FROM foods WHERE id = ?', id)
   }
 }
 
