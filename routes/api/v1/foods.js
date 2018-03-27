@@ -16,7 +16,7 @@ router.get('/:id', function(req, res, next) {
   var id = req.params.id
   database.raw('Select * FROM foods WHERE id = ?', id)
   .then(function(food) {
-    res.json(food.rows);
+    res.json(food.rows[0]);
     })
   });
 
