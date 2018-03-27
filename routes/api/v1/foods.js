@@ -4,22 +4,19 @@ var pry = require('pryjs')
 const environment = process.env.NODE_ENV || 'development'
 const configuration = require('../../../knexfile')[environment]
 const database = require('knex')(configuration)
+var foodsController = require('../../../controllers/foodsController')
 
-/* GET foods listing. */
-router.get('/', function(req, res, next) {
-  database.raw('Select * FROM foods')
-  .then(function(foods) {
-    res.json(foods.rows);
-    })
-  });
+router.get('/', foodsController.index)
 
-router.get('/:id', function(req, res, next) {
-  var id = req.params.id
-  database.raw('Select * FROM foods WHERE id = ?', id)
-  .then(function(food) {
-    res.json(food.rows[0]);
-    })
-  });
+router.get('/:id', foodsController.show)
+// 
+// function(req, res, next) {
+//   var id = req.params.id
+//   database.raw('Select * FROM foods WHERE id = ?', id)
+//   .then(function(food) {
+//     res.json(food.rows[0]);
+//     })
+//   });
 
 router.delete('/:id', function(req, res, next) {
   var id = req.params.id
