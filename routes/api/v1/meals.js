@@ -7,36 +7,11 @@ const database = require('knex')(configuration)
 
 /* GET meals listing. */
 router.get('/', function(req, res, next) {
-     let food_collection = []
-     return database.raw('Select * FROM meals')
-      .then(function(meals) {
-        meals.rows.forEach(function(row) {
-          food_collection.push({id: row.id, name: row.name, food: []})
-          // food_collection[0].food
-          // => []
-        })
-        for (i = 0; i < 4; i++) {
-          eval(pry.it)
-          food_collection[i].food.push(meal_foods_lookup(food_collection[i].id))
-      }
-    })
-    .catch(function(error) {
-      console.error(error)
-    })
-    res.json(food_collection);
+  database.raw("SELECT meals.*, array_agg(json_build_object('id',foods.id,'name',foods.name, 'calories', foods.calories)) AS foods FROM meals INNER JOIN meal_foods ON meals.id = meal_foods.meal_id INNER JOIN foods ON meal_foods.food_id = foods.id GROUP BY meals.id;")
+  .then(function(meals) {
+    res.json(meals.rows);
   })
-
-const meal_foods_lookup = (mealId) => {
-  return database.raw('SELECT foods.* FROM foods INNER JOIN meal_foods ON meal_foods.food_id = foods.id WHERE meal_foods.meal_id = ?',
-     mealId)
-  .then(function(mealFoods) {
-    return Promise.resolve(mealFoods.rows)
-  })
-  .catch(function(error) {
-    console.error(error)
-  })
-  }
-
+});
 
 router.get('/:id', function(req, res, next) {
   var id = req.params.id
@@ -46,10 +21,9 @@ router.get('/:id', function(req, res, next) {
     })
   });
 
-  //lookup array agg
 
-router.get('/:mealid/foods/', function(req, res, next) {
-  var meal = req.params.mealid
+router.get('/:mealId/foods/', function(req, res, next) {
+  var meal = req.params.mealId
   database.raw('SELECT foods.* FROM foods INNER JOIN meal_foods ON meal_foods.food_id = foods.id WHERE meal_foods.meal_id = ?',
    meal)
   .then(function(meal) {
@@ -57,9 +31,9 @@ router.get('/:mealid/foods/', function(req, res, next) {
   })
 });
 
-router.delete('/:mealid/foods/:foodid', function(req, res, next) {
-  var meal = req.params.mealid
-  var food = req.params.foodid
+router.delete('/:mealId/foods/:foodId', function(req, res, next) {
+  var meal = req.params.mealId
+  var food = req.params.foodId
   database.raw('DELETE FROM meal_foods WHERE meal_id = ? AND food_id = ?',
    [meal, food])
    .then(function() {
@@ -69,9 +43,9 @@ router.delete('/:mealid/foods/:foodid', function(req, res, next) {
    })
 });
 
-router.post('/:mealid/foods/:foodid', function(req, res, next) {
-  var meal = req.params.mealid
-  var food = req.params.foodid
+router.post('/:mealId/foods/:foodId', function(req, res, next) {
+  var meal = req.params.mealId
+  var food = req.params.foodId
   database.raw('INSERT INTO meal_foods(meal_id, food_id) VALUES (?, ?) RETURNING *',
    [meal, food])
   .then(function(inserted) {
