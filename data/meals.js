@@ -9,6 +9,6 @@ module.exports = [
     name: 'Dinner'
   },
   {
-    name: 'Snacks'
+    name: 'Snack'
   }
 ]
