@@ -2,6 +2,7 @@ pry = require('pryjs')
 
 const foodsData = require('../../../data/foods')
 const mealsData = require('../../../data/meals')
+const mealFoodsData = require('../../../data/meal_foods')
 
 exports.seed = function(knex, Promise) {
   return knex('meal_foods').del()
@@ -19,6 +20,9 @@ exports.seed = function(knex, Promise) {
     })
     .then(() => {
       return knex('meals').insert(mealsData)
+    })
+    .then(() => {
+      return knex('meal_foods').insert(mealFoodsData)
     })
     // .then(() => {
     //   return knex('meal_foods').del()
