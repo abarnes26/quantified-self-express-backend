@@ -4,17 +4,12 @@ const configuration = require('../../../knexfile')[environment]
 const database = require('knex')(configuration)
 const foodsData = require('../../../data/foods')
 const mealsData = require('../../../data/meals')
+const mealFoodsData = require('../../../data/meal_foods')
 
 exports.seed = function(knex, Promise) {
-  return knex('meal_foods').del()
+  return knex.raw('TRUNCATE meals, foods CASCADE')
     .then(() => {
-      return knex('meals').del();
-    })
-    .then(() => {
-      return knex('foods').del();
-    })
-    .then(() => {
-      knex.raw('TRUNCATE TABLE foods CASCADE')
+      return knex.raw('TRUNCATE meal_foods RESTART IDENTITY');
     })
     .then(() => {
       return knex('foods').insert(foodsData)
@@ -22,17 +17,9 @@ exports.seed = function(knex, Promise) {
     .then(() => {
       return knex('meals').insert(mealsData)
     })
-    // .then(() => {
-    //   return knex('meal_foods').del()
-    // })
-    // .then(() => {
-    //   let mealFoodsData = []
-    //   mealsData.forEach((meal) => {
-    //     let foodId = knex('foods').select('id').orderBy('random()');
-    //     mealFoodsData.push(createMealFood(knex, meal, foodId))
-    //   })
-    //   return Promise.all(mealFoodsData)
-    // })
+    .then(() => {
+      return knex('meal_foods').insert(mealFoodsData)
+    })
   }
 
 const createMealFood = (knex, meal, foodId) => {
