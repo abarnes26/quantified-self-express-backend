@@ -19,6 +19,20 @@ const Food = {
 
   delete: function(id) {
     return database.raw('DELETE FROM foods WHERE id = ?', id)
+  },
+
+  updateName: function(value, id) {
+    return database.raw('UPDATE foods SET name = ? WHERE id = ? RETURNING *', [value, id])
+    .then(function(foods) {
+      return foods.rows[0]
+    })
+  },
+
+  updateCalories: function(value, id) {
+    return database.raw('UPDATE foods SET calories = ? WHERE id = ? RETURNING *', [value, id])
+    .then(function(foods) {
+      return foods.rows[0]
+    })
   }
 }
 

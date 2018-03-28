@@ -12,33 +12,25 @@ router.get('/:id', foodsController.show)
 
 router.delete('/:id', foodsController.destroy)
 
+router.patch('/:id', foodsController.update)
+
 // function(req, res, next) {
 //   var id = req.params.id
-//   database.raw('DELETE FROM foods WHERE id = ?', id)
-//   .then(function() {
-//     res.status(201).send({
-//       status: "Delete Successful!"
+//   var food = req.body.food
+//   if (food['name']) {
+//   database.raw('UPDATE foods SET name = ? WHERE id = ? RETURNING *', [food.name, id])
+//   .then(function(foods) {
+//     res.status(201).json(foods.rows[0])
 //     })
-//   })
+//   // .catch(console.error(res.error))
+//   } else if (food['calories']) {
+//   database.raw('UPDATE foods SET calories = ? WHERE id = ? RETURNING *', [food.calories, id])
+//   .then(function(foods) {
+//     res.status(201).json(foods.rows[0])
+//     })
+//   // .catch(console.error(res.error))
+//   }
 // });
-
-router.patch('/:id', function(req, res, next) {
-  var id = req.params.id
-  var food = req.body.food
-  if (food['name']) {
-  database.raw('UPDATE foods SET name = ? WHERE id = ? RETURNING *', [food.name, id])
-  .then(function(foods) {
-    res.status(201).json(foods.rows[0])
-    })
-  // .catch(console.error(res.error))
-  } else if (food['calories']) {
-  database.raw('UPDATE foods SET calories = ? WHERE id = ? RETURNING *', [food.calories, id])
-  .then(function(foods) {
-    res.status(201).json(foods.rows[0])
-    })
-  // .catch(console.error(res.error))
-  }
-});
 
 router.post('/', function(req, res, next) {
   var name = req.body.food.name

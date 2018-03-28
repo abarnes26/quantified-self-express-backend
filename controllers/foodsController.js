@@ -25,5 +25,22 @@ var destroy = function(req, res, next) {
   })
 }
 
+var update = function(req, res, next) {
+  var id = req.params.id
+  var food = req.body.food
+  console.log(food)
+  if (food['name']) {
+  Food.updateName(food.name, id)
+    .then(function(foods) {
+    res.status(201).json(foods)
+    })
+  } else if (food['calories']) {
+  Food.updateCalories(food.calories, id)
+    .then(function(foods) {
+    res.status(201).json(foods)
+    })
+  }
+}
 
-module.exports = {index, show, destroy}
+
+module.exports = {index, show, destroy, update}
