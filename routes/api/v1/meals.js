@@ -1,17 +1,19 @@
-var express = require('express');
-var router = express.Router();
-var pry = require('pryjs')
+const express = require('express');
+const router = express.Router();
+const pry = require('pryjs')
+
 const environment = process.env.NODE_ENV || 'development'
 const configuration = require('../../../knexfile')[environment]
 const database = require('knex')(configuration)
+const mealsController = require('../../../controllers/mealsController')
 
 /* GET meals listing. */
-router.get('/', function(req, res, next) {
-  database.raw("SELECT meals.*, array_agg(json_build_object('id',foods.id,'name',foods.name, 'calories', foods.calories)) AS foods FROM meals INNER JOIN meal_foods ON meals.id = meal_foods.meal_id INNER JOIN foods ON meal_foods.food_id = foods.id GROUP BY meals.id;")
-  .then(function(meals) {
-    res.json(meals.rows);
-  })
-});
+router.get('/', mealsController.index)
+  // database.raw("SELECT meals.*, array_agg(json_build_object('id',foods.id,'name',foods.name, 'calories', foods.calories)) AS foods FROM meals INNER JOIN meal_foods ON meals.id = meal_foods.meal_id INNER JOIN foods ON meal_foods.food_id = foods.id GROUP BY meals.id;")
+  // .then(function(meals) {
+  //   res.json(meals.rows);
+  // })
+
 
 router.get('/:id', function(req, res, next) {
   var id = req.params.id
@@ -31,6 +33,10 @@ router.get('/:mealId/foods/', function(req, res, next) {
   })
 });
 
+
+
+
+///////////////////////////////////////////
 router.delete('/:mealId/foods/:foodId', function(req, res, next) {
   var meal = req.params.mealId
   var food = req.params.foodId

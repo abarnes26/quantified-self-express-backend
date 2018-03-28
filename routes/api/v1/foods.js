@@ -1,10 +1,11 @@
-var express = require('express');
-var router = express.Router();
-var pry = require('pryjs')
+const express = require('express');
+const router = express.Router();
+const pry = require('pryjs')
+
 const environment = process.env.NODE_ENV || 'development'
 const configuration = require('../../../knexfile')[environment]
 const database = require('knex')(configuration)
-var foodsController = require('../../../controllers/foodsController')
+const foodsController = require('../../../controllers/foodsController')
 
 router.get('/', foodsController.index)
 
