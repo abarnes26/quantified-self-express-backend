@@ -33,6 +33,13 @@ const Food = {
     .then(function(foods) {
       return foods.rows[0]
     })
+  },
+
+  newFood: function(nameValue, caloriesValue) {
+    return database.raw('INSERT INTO foods(name, calories) VALUES (?, ?) RETURNING *', [nameValue, caloriesValue])
+     .then(function(inserted) {
+       return inserted.rows[0]
+     })
   }
 }
 

@@ -28,7 +28,6 @@ var destroy = function(req, res, next) {
 var update = function(req, res, next) {
   var id = req.params.id
   var food = req.body.food
-  console.log(food)
   if (food['name']) {
   Food.updateName(food.name, id)
     .then(function(foods) {
@@ -42,5 +41,13 @@ var update = function(req, res, next) {
   }
 }
 
+var create = function(req, res, next) {
+  var name = req.body.food.name
+  var calories = req.body.food.calories
+  Food.newFood(name, calories)
+    .then(function(inserted) {
+      res.status(201).json(inserted)
+  })
+}
 
-module.exports = {index, show, destroy, update}
+module.exports = {index, show, destroy, update, create}

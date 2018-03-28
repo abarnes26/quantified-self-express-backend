@@ -14,35 +14,7 @@ router.delete('/:id', foodsController.destroy)
 
 router.patch('/:id', foodsController.update)
 
-// function(req, res, next) {
-//   var id = req.params.id
-//   var food = req.body.food
-//   if (food['name']) {
-//   database.raw('UPDATE foods SET name = ? WHERE id = ? RETURNING *', [food.name, id])
-//   .then(function(foods) {
-//     res.status(201).json(foods.rows[0])
-//     })
-//   // .catch(console.error(res.error))
-//   } else if (food['calories']) {
-//   database.raw('UPDATE foods SET calories = ? WHERE id = ? RETURNING *', [food.calories, id])
-//   .then(function(foods) {
-//     res.status(201).json(foods.rows[0])
-//     })
-//   // .catch(console.error(res.error))
-//   }
-// });
-
-router.post('/', function(req, res, next) {
-  var name = req.body.food.name
-  var calories = req.body.food.calories
-  database.raw('INSERT INTO foods(name, calories) VALUES (?, ?) RETURNING *',
-   [name, calories])
-  .then(function(inserted) {
-    res.status(201).json(inserted.rows[0])
-  })
-});
-
-
+router.post('/', foodsController.create)
 
 
 module.exports = router;
