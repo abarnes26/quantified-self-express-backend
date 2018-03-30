@@ -1,16 +1,16 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
-var sassMiddleware = require('node-sass-middleware');
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
+const sassMiddleware = require('node-sass-middleware');
 
-var indexRouter = require('./routes/index');
-var foodsRouter = require('./routes/api/v1/foods');
-var mealsRouter = require('./routes/api/v1/meals');
+const indexRouter = require('./routes/index');
+const foodsRouter = require('./routes/api/v1/foods');
+const mealsRouter = require('./routes/api/v1/meals');
 
 
-var app = express();
+const app = express();
 
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");

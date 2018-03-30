@@ -1,13 +1,13 @@
-var Food = require('../models/food')
+const Food = require('../models/food')
 
-var index = function(req, res, next) {
+const index = function(req, res, next) {
   Food.findAll()
     .then(function(foods) {
      res.json(foods)
    })
  }
 
-var show = function(req, res, next) {
+const show = function(req, res, next) {
   let id = req.params.id
   Food.find(id)
     .then(function(food) {
@@ -15,7 +15,7 @@ var show = function(req, res, next) {
     })
 }
 
-var destroy = function(req, res, next) {
+const destroy = function(req, res, next) {
   let id = req.params.id
   Food.delete(id)
     .then(function() {
@@ -25,7 +25,7 @@ var destroy = function(req, res, next) {
   })
 }
 
-var update = function(req, res, next) {
+const update = function(req, res, next) {
   let id = req.params.id
   let food = req.body.food
   if (food['name']) {
@@ -41,7 +41,7 @@ var update = function(req, res, next) {
   }
 }
 
-var create = function(req, res, next) {
+const create = function(req, res, next) {
   let name = req.body.food.name
   let calories = req.body.food.calories
   Food.newFood(name, calories)
