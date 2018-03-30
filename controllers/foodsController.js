@@ -8,7 +8,7 @@ var index = function(req, res, next) {
  }
 
 var show = function(req, res, next) {
-  var id = req.params.id
+  let id = req.params.id
   Food.find(id)
     .then(function(food) {
       res.json(food)
@@ -16,7 +16,7 @@ var show = function(req, res, next) {
 }
 
 var destroy = function(req, res, next) {
-  var id = req.params.id
+  let id = req.params.id
   Food.delete(id)
     .then(function() {
       res.status(201).send({
@@ -26,8 +26,8 @@ var destroy = function(req, res, next) {
 }
 
 var update = function(req, res, next) {
-  var id = req.params.id
-  var food = req.body.food
+  let id = req.params.id
+  let food = req.body.food
   if (food['name']) {
   Food.updateName(food.name, id)
     .then(function(foods) {
@@ -42,8 +42,8 @@ var update = function(req, res, next) {
 }
 
 var create = function(req, res, next) {
-  var name = req.body.food.name
-  var calories = req.body.food.calories
+  let name = req.body.food.name
+  let calories = req.body.food.calories
   Food.newFood(name, calories)
     .then(function(inserted) {
       res.status(201).json(inserted)
