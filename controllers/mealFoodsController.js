@@ -1,10 +1,10 @@
-var MealFood = require('../models/mealFood')
-var pry = require('pryjs')
+const MealFood = require('../models/mealFood')
+const pry = require('pryjs')
 
 
-var destroy = function(req, res, next) {
-  var meal = req.params.mealId
-  var food = req.params.foodId
+const destroy = function(req, res, next) {
+  let meal = req.params.mealId
+  let food = req.params.foodId
   MealFood.delete(meal, food)
     .then(function() {
       res.status(201).send({
@@ -13,9 +13,9 @@ var destroy = function(req, res, next) {
     })
 }
 
-var create = function(req, res, next) {
-  var meal = req.params.mealId
-  var food = req.params.foodId
+const create = function(req, res, next) {
+  let meal = req.params.mealId
+  let food = req.params.foodId
   MealFood.new(meal, food)
   .then(function(inserted) {
     res.status(201).json(inserted)

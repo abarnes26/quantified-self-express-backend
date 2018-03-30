@@ -7,13 +7,12 @@ const configuration = require('../../../knexfile')[environment]
 const database = require('knex')(configuration)
 
 const mealsController = require('../../../controllers/mealsController')
-var mealFoodsController = require('../../../controllers/mealFoodsController')
+const mealFoodsController = require('../../../controllers/mealFoodsController')
 
 
 /* GET meals listing. */
 router.get('/', mealsController.index)
 router.get('/:id', mealsController.show)
-router.get('/:mealId/foods/', mealsController.update)
 router.delete('/:mealId/foods/:foodId', mealFoodsController.destroy)
 router.post('/:mealId/foods/:foodId', mealFoodsController.create)
 
